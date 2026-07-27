@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAIC - Zahid Ashraf Institute for CSS/PMS</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom Tailwind Config & Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0f172a',
+                        gold: '#b45309', // Using tailwind amber-700 for a rich academic gold
+                        emerald: '#047857', // Emerald accent
+                        lightgray: '#f1f5f9'
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* SPA Page Transitions */
+        .page-section { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Carousel Styles */
+        .carousel-container { position: relative; width: 100%; overflow: hidden; }
+        .carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease-in-out; object-fit: cover; }
+        .carousel-slide.active { opacity: 1; }
+
+        /* Hamburger Menu Animation */
+        .menu-open { transform: translateX(0) !important; }
+    </style>
+</head>
+<body class="bg-lightgray text-navy">
+
+    <!-- ========================================= -->
+    <!-- HEADER & NAVIGATION                       -->
+    <!-- ========================================= -->
+    <header class="bg-navy text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center font-bold text-navy text-xl shadow-md">Z</div>
+                    <div>
+                        <h1 class="text-xl font-bold tracking-wide">ZAIC</h1>
+                        <p class="text-xs text-gray-400 tracking-wider">Zahid Ashraf Institute</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center space-x-6 font-medium">
+                    <a href="#home" onclick="navigateTo('home')" class="hover:text-gold transition-colors duration-300 nav-link" data-page="home">Home</a>
+                    <a href="#about" onclick="navigateTo('about')" class="hover:text-gold transition-colors duration-300 nav-link" data-page="about">About ZAIC</a>
+                    <a href="#blogs" onclick="navigateTo('blogs')" class="hover:text-gold transition-colors duration-300 nav-link" data-page="blogs">Blogs</a>
+                    <a href="#contact" onclick="navigateTo('contact')" class="hover:text-gold transition-colors duration-300 nav-link" data-page="contact">Contact Us</a>
+                </nav>
+
+                <!-- Desktop CTA & Socials -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="https://www.facebook.com/profile.php?id=100079571137451&mibextid=JRoKGi" target="_blank" class="hover:text-gold transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/channel/UCsq0OHhbOw7igD_sffG-yzw" target="_blank" class="hover:text-gold transition"><i class="fab fa-youtube"></i></a>
+                    <a href="https://wa.me/923334669599?text=Hi%20ZAIC,%20I%20want%20to%20apply%20for%20CSS/PMS%20coaching." target="_blank" class="bg-gold text-navy px-4 py-2 rounded font-bold hover:bg-amber-600 transition shadow-md transform hover:scale-105">
+                        Apply for CSS <i class="fab fa-whatsapp ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile Hamburger -->
+                <button id="menu-btn" class="md:hidden text-gold focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-slate-800 transform -translate-x-full transition-transform duration-300 absolute top-0 left-0 w-64 h-screen z-40 p-8 space-y-6">
+            <button id="close-menu" class="absolute top-4 right-4 text-white text-2xl"><i class="fas fa-times"></i></button>
+            <a href="#home" onclick="navigateTo('home'); closeMobileMenu();" class="block text-white hover:text-gold text-lg">Home</a>
+            <a href="#about" onclick="navigateTo('about'); closeMobileMenu();" class="block text-white hover:text-gold text-lg">About ZAIC</a>
+            <a href="#blogs" onclick="navigateTo('blogs'); closeMobileMenu();" class="block text-white hover:text-gold text-lg">Blogs</a>
+            <a href="#contact" onclick="navigateTo('contact'); closeMobileMenu();" class="block text-white hover:text-gold text-lg">Contact Us</a>
+            <a href="https://wa.me/923334669599?text=Hi%20ZAIC,%20I%20want%20to%20apply%20for%20CSS/PMS%20coaching." target="_blank" class="block bg-gold text-navy px-4 py-2 rounded font-bold text-center mt-4">Apply for CSS</a>
+            <div class="flex space-x-4 pt-4 border-t border-gray-600">
+                <a href="https://www.facebook.com/profile.php?id=100079571137451&mibextid=JRoKGi" target="_blank" class="text-white hover:text-gold"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="https://www.youtube.com/channel/UCsq0OHhbOw7igD_sffG-yzw" target="_blank" class="text-white hover:text-gold"><i class="fab fa-youtube text-xl"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================= -->
+    <!-- MAIN CONTENT CONTAINER                    -->
+    <!-- ========================================= -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ========================================= -->
+        <!-- PAGE 1: HOME                              -->
+        <!-- ========================================= -->
+        <section id="home" class="page-section">
+            <!-- Hero Section -->
+            <div class="bg-navy rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row mb-12">
+                <div class="md:w-2/3 p-8 md:p-12 flex flex-col justify-center">
+                    <span class="text-gold font-semibold uppercase tracking-widest text-sm mb-2">Pakistan's Premier CSS/PMS Institute</span>
+                    <h1 class="text-3xl md:text-5xl font-bold text-white leading-tight mb-6 font-serif">Unlock Your Bureaucratic Potential with <span class="text-gold">Prof. Zahid Ashraf</span></h1>
+                    <p class="text-gray-300 mb-8 text-lg leading-relaxed">Author of renowned CSS preparation books and mentor to hundreds of successful civil servants. Your journey to the Federal & Provincial bureaucracy starts here.</p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="https://wa.me/923334669599?text=Hi%20ZAIC,%20I%20want%20to%20apply%20for%20CSS/PMS%20coaching." target="_blank" class="bg-gold text-navy px-8 py-3 rounded font-bold text-center hover:bg-amber-500 transition shadow-lg transform hover:scale-105 inline-flex items-center justify-center">
+                            <i class="fab fa-whatsapp mr-2"></i> Apply Now via WhatsApp
+                        </a>
+                        <a href="#about" onclick="navigateTo('about')" class="border-2 border-emerald text-emerald px-8 py-3 rounded font-bold text-center hover:bg-emerald hover:text-white transition inline-flex items-center justify-center">
+                            <i class="fas fa-info-circle mr-2"></i> Learn More About ZAIC
+                        </a>
+                    </div>
+                </div>
+                <!-- Updated Hero Image Section -->
+                <div class="md:w-1/3 bg-gradient-to-br from-navy to-slate-800 flex items-center justify-center p-8 relative hidden md:flex">
+                    <div class="text-center">
+                        <img src="https://webeflow.github.io/jsjssjsjjsjjssjjsjjsjs/1.jpg" alt="Prof. Zahid Ashraf" class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-gold object-cover mx-auto mb-4 shadow-lg">
+                        <h3 class="text-2xl font-bold text-white font-serif">Prof. Zahid Ashraf</h3>
+                        <p class="text-emerald font-medium mt-2">Principal & Renowned Author</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Principal Message (Updated Image) -->
+            <div class="bg-white p-8 rounded-xl shadow-lg mb-12 border-l-4 border-gold relative">
+                <i class="fas fa-quote-left absolute top-6 left-6 text-gold opacity-20 text-4xl"></i>
+                <h2 class="text-2xl font-bold text-navy mb-4 font-serif">Message from the Principal</h2>
+                <p class="text-gray-600 leading-relaxed text-lg mb-4 italic">
+                    "At ZAIC, we don't just prepare you for exams; we sculpt future leaders of Pakistan. With decades of experience and a deep understanding of the CSS/PMS landscape, my team and I provide an ecosystem of rigorous academic discipline, personalized mentorship, and the exact resources—through my published books—that align perfectly with FPSC requirements. Your success is our legacy."
+                </p>
+                <div class="flex items-center mt-6">
+                    <div class="w-12 h-12 rounded-full border-2 border-gold overflow-hidden mr-4 shadow">
+                        <img src="https://webeflow.github.io/jsjssjsjjsjjssjjsjjsjs/1.jpg" alt="Prof. Zahid Ashraf" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-navy">Prof. Zahid Ashraf</h4>
+                        <p class="text-sm text-gray-500">Founder & Principal, ZAIC Institute</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievement Highlight -->
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-navy font-serif mb-2">Our Pride & Achievement</h2>
+                <p class="text-gray-600 mb-8">Celebrating the monumental success of our students in the competitive exams.</p>
+                <div class="bg-white rounded-xl shadow-xl overflow-hidden max-w-4xl mx-auto border border-gray-200">
+                    <div class="relative">
+                        <img src="https://scontent.flhe3-2.fna.fbcdn.net/v/t39.30808-6/469232378_3035215946628877_2040238162990996770_n.jpg?stp=dst-jpg_tt6&cstp=mx1024x580&ctp=s960x960&_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=IjzHyPw8MAoQ7kNvwG1ujuM&_nc_oc=Adqzy_CJurOm6xF4sUDo-a2jb5Cn4PE9NhKj_aesbpiVHiWRBwMrMtOTwDSHn0imENo&_nc_zt=23&_nc_ht=scontent.flhe3-2.fna&_nc_gid=oseem5cN7XBdKUw3ed3GGA&_nc_ss=7b2a8&oh=00_AQAq98W5o8D3S6OLvqvPF3jwQmmq-MdbzBmc8c_vcZVrEA&oe=6A6CDC2C" alt="CSS 2020 2nd Position Achiever" class="w-full h-auto object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-navy to-transparent p-6 text-white">
+                            <h3 class="text-2xl font-bold text-gold">CSS 2020 - 2nd Position Nationwide</h3>
+                            <p>A testament to ZAIC's unparalleled mentorship and result-oriented methodology.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS/PMS Specializations Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition border-b-4 border-navy group">
+                    <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                        <i class="fas fa-chalkboard-teacher text-navy text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy mb-3 font-serif">Expert Mentorship</h3>
+                    <p class="text-gray-600">Direct guidance under Prof. Zahid Ashraf and seasoned bureaucrats, focusing on analytical skills and critical thinking required for CSS/PMS.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition border-b-4 border-emerald group">
+                    <div class="w-16 h-16 bg-emerald rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition text-white">
+                        <i class="fas fa-book text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy mb-3 font-serif">Authored Study Material</h3>
+                    <p class="text-gray-600">Study directly from the official books authored by Prof. Zahid Ashraf, ensuring 100% syllabus alignment and exam-focused preparation.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition border-b-4 border-gold group">
+                    <div class="w-16 h-16 bg-navy rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition text-gold">
+                        <i class="fas fa-pen-nib text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy mb-3 font-serif">Rigorous Test Series</h3>
+                    <p class="text-gray-600">Comprehensive weekly tests, mock exams simulating real exam conditions, and detailed personalized feedback to track your progress.</p>
+                </div>
+            </div>
+
+            <!-- Interactive Image Slideshow -->
+            <div class="mb-4">
+                <h2 class="text-3xl font-bold text-navy font-serif mb-2 text-center">Life at ZAIC Institute</h2>
+                <p class="text-gray-600 mb-8 text-center">Glimpses of our classrooms, sessions, and student achievements.</p>
+                <div id="carousel-home" class="carousel-container rounded-xl shadow-xl h-[500px] bg-navy">
+                    <!-- Slides injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================= -->
+        <!-- PAGE 2: ABOUT ZAIC                        -->
+        <!-- ========================================= -->
+        <section id="about" class="page-section hidden">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-r from-navy to-slate-800 p-12 rounded-xl shadow-xl mb-12 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-white font-serif mb-4">About <span class="text-gold">ZAIC</span></h1>
+                <p class="text-gray-300 max-w-3xl mx-auto text-lg">A legacy of excellence in CSS/PMS preparation, founded on academic discipline, result-oriented strategies, and the profound expertise of Pakistan's leading author.</p>
+            </div>
+
+            <!-- Story & Profile (Updated Image) -->
+            <div class="flex flex-col md:flex-row gap-8 mb-12">
+                <div class="md:w-2/3 bg-white p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-navy mb-6 font-serif border-b-2 border-gold pb-2">Our Story & Methodology</h2>
+                    <p class="text-gray-600 leading-relaxed mb-4">ZAIC (Zahid Ashraf Institute for CSS/PMS) was established with a singular vision: to transform the landscape of competitive exam preparation in Pakistan. Unlike commercial academies, ZAIC operates as an academic think-tank where quality precedes quantity.</p>
+                    <p class="text-gray-600 leading-relaxed mb-4">Our methodology is deeply rooted in the FPSC's evolving patterns. We emphasize conceptual clarity over rote learning, argumentative writing over descriptive fluff, and psychological resilience over mere cramming. Every lecture, every test, and every reading material is meticulously calibrated to the demands of the written exam and the subsequent interview.</p>
+                    <p class="text-gray-600 leading-relaxed">Through our personalized feedback system, rigorous mock exams, and direct one-on-one mentorship, we ensure that every aspirant bridges the gap between their current potential and the rigorous standards of the civil service.</p>
+                </div>
+                <div class="md:w-1/3 bg-white p-8 rounded-xl shadow-lg text-center border-t-4 border-gold">
+                    <div class="w-24 h-24 rounded-full border-4 border-gold overflow-hidden mx-auto mb-6 shadow-md">
+                        <img src="https://webeflow.github.io/jsjssjsjjsjjssjjsjjsjs/1.jpg" alt="Prof. Zahid Ashraf" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy font-serif">Prof. Zahid Ashraf</h3>
+                    <p class="text-emerald font-semibold mb-4">Principal & Lead Mentor</p>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">A stalwart in CSS/PMS preparation, author of widely prescribed books across Pakistan, and the academic force behind hundreds of allocated officers.</p>
+                    <a href="https://wa.me/923334669599?text=Hi%20ZAIC,%20I%20want%20to%20apply%20for%20CSS/PMS%20coaching." target="_blank" class="bg-emerald text-white px-6 py-2 rounded hover:bg-emerald-700 transition font-bold inline-block"><i class="fab fa-whatsapp mr-1"></i> Connect Directly</a>
+                </div>
+            </div>
+
+            <!-- Core Features -->
+            <div class="bg-lightgray p-8 rounded-xl mb-12 border border-gray-200">
+                <h2 class="text-2xl font-bold text-navy mb-6 text-center font-serif">Why ZAIC Stands Apart?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex items-start space-x-4 bg-white p-6 rounded-lg shadow">
+                        <i class="fas fa-check-circle text-gold text-2xl mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-navy mb-1">Authored Curriculum</h4>
+                            <p class="text-gray-600 text-sm">Study from the exact books written by Prof. Zahid Ashraf, eliminating the need for scattered, unreliable resources.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 bg-white p-6 rounded-lg shadow">
+                        <i class="fas fa-check-circle text-emerald text-2xl mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-navy mb-1">Mock Exam Simulations</h4>
+                            <p class="text-gray-600 text-sm">Real-exam condition mocks that train your brain to handle pressure, time constraints, and unexpected question patterns.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 bg-white p-6 rounded-lg shadow">
+                        <i class="fas fa-check-circle text-navy text-2xl mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-navy mb-1">Individualized Feedback</h4>
+                            <p class="text-gray-600 text-sm">No generic remarks. Your essays and answers are dissected personally to identify and rectify your specific weaknesses.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 bg-white p-6 rounded-lg shadow">
+                        <i class="fas fa-check-circle text-gold text-2xl mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-navy mb-1">Interview & Psychological Prep</h4>
+                            <p class="text-gray-600 text-sm">Comprehensive viva voce training, psychological assessment drills, and exposure to past interview panels.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel for About Page -->
+            <div class="mb-4">
+                <h2 class="text-3xl font-bold text-navy font-serif mb-2 text-center">ZAIC Gallery</h2>
+                <div id="carousel-about" class="carousel-container rounded-xl shadow-xl h-[500px] bg-navy"></div>
+            </div>
+        </section>
+
+        <!-- ========================================= -->
+        <!-- PAGE 3: BLOGS / ACHIEVEMENTS              -->
+        <!-- ========================================= -->
+        <section id="blogs" class="page-section hidden">
+            <div class="bg-gradient-to-r from-emerald to-navy p-12 rounded-xl shadow-xl mb-12 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-white font-serif mb-4">Blogs & <span class="text-gold">Achievements</span></h1>
+                <p class="text-gray-200 max-w-3xl mx-auto text-lg">Stay updated with the latest strategies, success stories, and academic insights from ZAIC's thought leaders.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blog 1 -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition overflow-hidden group">
+                    <div class="h-48 bg-navy flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-edit text-gold text-6xl opacity-80 group-hover:scale-110 transition"></i>
+                        <div class="absolute top-4 right-4 bg-gold text-navy text-xs px-2 py-1 rounded font-bold">CSS Prep</div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2"><i class="far fa-calendar-alt mr-1"></i> October 15, 2023</p>
+                        <h3 class="text-xl font-bold text-navy mb-3 font-serif leading-snug">How to Prepare English Essay for CSS 2027 by Prof. Zahid Ashraf</h3>
+                        <p class="text-gray-600 text-sm mb-4">Master the art of argumentative writing with structured outlines, thesis formulation, and evidence integration exactly as required by FPSC examiners...</p>
+                        <a href="#" class="text-emerald font-semibold hover:text-navy transition inline-flex items-center">Read More <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Blog 2 -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition overflow-hidden group">
+                    <div class="h-48 bg-emerald flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-trophy text-white text-6xl opacity-80 group-hover:scale-110 transition"></i>
+                        <div class="absolute top-4 right-4 bg-navy text-gold text-xs px-2 py-1 rounded font-bold">Success Story</div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2"><i class="far fa-calendar-alt mr-1"></i> November 05, 2023</p>
+                        <h3 class="text-xl font-bold text-navy mb-3 font-serif leading-snug">ZAIC Student Secures Top Rank in CSS Allocation</h3>
+                        <p class="text-gray-600 text-sm mb-4">An exclusive interview with our recent allocated officer, detailing their journey from a novice aspirant to achieving a top merit number...</p>
+                        <a href="#" class="text-emerald font-semibold hover:text-navy transition inline-flex items-center">Read More <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Blog 3 -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition overflow-hidden group">
+                    <div class="h-48 bg-slate-700 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-book-open text-gold text-6xl opacity-80 group-hover:scale-110 transition"></i>
+                        <div class="absolute top-4 right-4 bg-gold text-navy text-xs px-2 py-1 rounded font-bold">PMS Strategy</div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2"><i class="far fa-calendar-alt mr-1"></i> December 12, 2023</p>
+                        <h3 class="text-xl font-bold text-navy mb-3 font-serif leading-snug">Complete PMS Syllabus Overview & Recommended Books</h3>
+                        <p class="text-gray-600 text-sm mb-4">Navigating the provincial syllabus can be daunting. Here is the definitive guide on compulsory/optional subjects and Prof. Ashraf's recommended readings...</p>
+                        <a href="#" class="text-emerald font-semibold hover:text-navy transition inline-flex items-center">Read More <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Blog 4 -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition overflow-hidden group">
+                    <div class="h-48 bg-navy flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-clock text-emerald text-6xl opacity-80 group-hover:scale-110 transition"></i>
+                        <div class="absolute top-4 right-4 bg-emerald text-white text-xs px-2 py-1 rounded font-bold">Tips</div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2"><i class="far fa-calendar-alt mr-1"></i> January 08, 2024</p>
+                        <h3 class="text-xl font-bold text-navy mb-3 font-serif leading-snug">Time Management Tips for Written Exams</h3>
+                        <p class="text-gray-600 text-sm mb-4">How to allocate your 3 hours effectively across 20 questions, ensuring every question gets the attention it deserves without rushing...</p>
+                        <a href="#" class="text-emerald font-semibold hover:text-navy transition inline-flex items-center">Read More <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Blog 5 -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition overflow-hidden group">
+                    <div class="h-48 bg-slate-800 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-globe-americas text-gold text-6xl opacity-80 group-hover:scale-110 transition"></i>
+                        <div class="absolute top-4 right-4 bg-gold text-navy text-xs px-2 py-1 rounded font-bold">Current Affairs</div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2"><i class="far fa-calendar-alt mr-1"></i> February 22, 2024</p>
+                        <h3 class="text-xl font-bold text-navy mb-3 font-serif leading-snug">Important Current Affairs Topics for Screening Test</h3>
+                        <p class="text-gray-600 text-sm mb-4">A curated list of high-yield national and international events, economic indicators, and geopolitical shifts likely to appear in the MPT...</p>
+                        <a href="#" class="text-emerald font-semibold hover:text-navy transition inline-flex items-center">Read More <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Blog 6 -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition overflow-hidden group">
+                    <div class="h-48 bg-emerald flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-brain text-white text-6xl opacity-80 group-hover:scale-110 transition"></i>
+                        <div class="absolute top-4 right-4 bg-navy text-gold text-xs px-2 py-1 rounded font-bold">Interview</div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2"><i class="far fa-calendar-alt mr-1"></i> March 10, 2024</p>
+                        <h3 class="text-xl font-bold text-navy mb-3 font-serif leading-snug">Interview & Psychological Test Preparation Strategies</h3>
+                        <p class="text-gray-600 text-sm mb-4">Decode the psychological assessment and viva voce. Learn how to project confidence, leadership, and administrative acumen before the panel...</p>
+                        <a href="#" class="text-emerald font-semibold hover:text-navy transition inline-flex items-center">Read More <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================= -->
+        <!-- PAGE 4: CONTACT US                        -->
+        <!-- ========================================= -->
+        <section id="contact" class="page-section hidden">
+            <div class="bg-gradient-to-r from-navy to-slate-800 p-12 rounded-xl shadow-xl mb-12 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-white font-serif mb-4">Contact <span class="text-gold">ZAIC</span></h1>
+                <p class="text-gray-300 max-w-3xl mx-auto text-lg">Ready to begin your journey? Reach out to us directly for admissions, inquiries, or mentorship guidance.</p>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg border-l-4 border-emerald">
+                <h2 class="text-2xl font-bold text-navy mb-6 font-serif">Direct Contact Details</h2>
+                
+                <div class="flex items-start space-x-4 mb-8">
+                    <div class="w-12 h-12 bg-emerald rounded-full flex items-center justify-center text-white flex-shrink-0">
+                        <i class="fas fa-phone-alt text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-navy text-lg">Call / WhatsApp</h4>
+                        <p class="text-gray-600 text-xl font-semibold">0333 4669599</p>
+                        <a href="https://wa.me/923334669599?text=Hi%20ZAIC,%20I%20want%20to%20apply%20for%20CSS/PMS%20coaching." target="_blank" class="text-gold hover:text-amber-600 transition text-sm inline-flex items-center mt-1"><i class="fab fa-whatsapp mr-1"></i> Click to Chat Instantly</a>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4 mb-8">
+                    <div class="w-12 h-12 bg-navy rounded-full flex items-center justify-center text-gold flex-shrink-0">
+                        <i class="fas fa-map-marker-alt text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-navy text-lg">Campus Location</h4>
+                        <p class="text-gray-600">Main Boulevard, Lahore, Pakistan</p> 
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center text-navy flex-shrink-0">
+                        <i class="fas fa-share-alt text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-navy text-lg">Social Media</h4>
+                        <div class="flex space-x-4 mt-2">
+                            <a href="https://www.facebook.com/profile.php?id=100079571137451&mibextid=JRoKGi" target="_blank" class="text-blue-600 hover:text-blue-800 transition text-2xl"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.youtube.com/channel/UCsq0OHhbOw7igD_sffG-yzw" target="_blank" class="text-red-600 hover:text-red-800 transition text-2xl"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================= -->
+    <!-- FOOTER                                    -->
+    <!-- ========================================= -->
+    <footer class="bg-navy text-gray-400 mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center font-bold text-navy text-xl">Z</div>
+                        <h2 class="text-xl font-bold text-white">ZAIC Institute</h2>
+                    </div>
+                    <p class="text-sm leading-relaxed">Zahid Ashraf Institute for CSS/PMS. Elevating aspirants to federal and provincial bureaucratic excellence through expert mentorship and authored study materials.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4 border-b border-gray-600 pb-2 inline-block">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#home" onclick="navigateTo('home')" class="hover:text-gold transition"><i class="fas fa-chevron-right text-xs mr-2 text-gold"></i> Home</a></li>
+                        <li><a href="#about" onclick="navigateTo('about')" class="hover:text-gold transition"><i class="fas fa-chevron-right text-xs mr-2 text-gold"></i> About ZAIC</a></li>
+                        <li><a href="#blogs" onclick="navigateTo('blogs')" class="hover:text-gold transition"><i class="fas fa-chevron-right text-xs mr-2 text-gold"></i> Blogs & Achievements</a></li>
+                        <li><a href="#contact" onclick="navigateTo('contact')" class="hover:text-gold transition"><i class="fas fa-chevron-right text-xs mr-2 text-gold"></i> Contact Us</a></li>
+                        <li><a href="https://wa.me/923334669599?text=Hi%20ZAIC,%20I%20want%20to%20apply%20for%20CSS/PMS%20coaching." target="_blank" class="hover:text-gold transition"><i class="fas fa-chevron-right text-xs mr-2 text-gold"></i> Apply for CSS/PMS</a></li>
+                    </ul>
+                </div>
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4 border-b border-gray-600 pb-2 inline-block">Contact Info</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center"><i class="fas fa-phone-alt text-gold mr-3"></i> 0333 4669599</li>
+                        <li class="flex items-center"><i class="fab fa-whatsapp text-emerald mr-3"></i> <a href="https://wa.me/923334669599" target="_blank" class="hover:text-white transition">WhatsApp Chat</a></li>
+                        <li class="flex items-center"><i class="fab fa-facebook-f text-blue-400 mr-3"></i> <a href="https://www.facebook.com/profile.php?id=100079571137451&mibextid=JRoKGi" target="_blank" class="hover:text-white transition">ZAIC Facebook Page</a></li>
+                        <li class="flex items-center"><i class="fab fa-youtube text-red-400 mr-3"></i> <a href="https://www.youtube.com/channel/UCsq0OHhbOw7igD_sffG-yzw" target="_blank" class="hover:text-white transition">ZAIC YouTube Channel</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-xs text-gray-500">
+                &copy; 2024 ZAIC - Zahid Ashraf Institute for CSS/PMS. All Rights Reserved. Designed with Excellence.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================= -->
+    <!-- FLOATING WHATSAPP ICON                    -->
+    <!-- ========================================= -->
+    <a href="https://wa.me/923334669599?text=Hi%20ZAIC,%20I%20want%20to%20apply%20for%20CSS/PMS%20coaching." target="_blank" id="floating-wa" class="fixed bottom-6 right-6 bg-green-500 w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:bg-green-600 transition transform hover:scale-110 z-50 animate-bounce">
+        <i class="fab fa-whatsapp text-white text-3xl"></i>
+    </a>
+
+    <!-- ========================================= -->
+    <!-- JAVASCRIPT LOGIC                          -->
+    <!-- ========================================= -->
+    <script>
+        // --- SPA Navigation Logic ---
+        function navigateTo(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            // Show target page
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.classList.remove('hidden');
+                // Re-trigger animation
+                target.style.animation = 'none';
+                target.offsetHeight; /* trigger reflow */
+                target.style.animation = 'fadeIn 0.4s ease-in-out';
+            }
+
+            // Update active nav link styling
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('text-gold', 'border-b-2', 'border-gold');
+            });
+            const activeLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('text-gold', 'border-b-2', 'border-gold');
+            }
+
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Mobile Menu Logic ---
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('menu-open');
+        });
+
+        closeBtn.addEventListener('click', closeMobileMenu);
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('menu-open');
+        }
+
+        // Initialize Home Page on load
+        window.onload = () => {
+            navigateTo('home');
+            initCarousels();
+        };
+
+        // --- Carousel Logic ---
+        const slideshowImages = [
+            "https://scontent.flhe3-1.fna.fbcdn.net/v/t39.30808-6/710669015_963359639659732_7504580271990988815_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1080&ctp=s206x206&_nc_cat=111&ccb=1-7&_nc_sid=50ad20&_nc_ohc=DAnl9ayoWKcQ7kNvwHVD1F5&_nc_oc=AdqTqeTFA8a0iJzE3p4CmVC2gHMmmMHCIN550ZRxjqcKtsuci9AO7_SruuLvdUoUpJA&_nc_zt=23&_nc_ht=scontent.flhe3-1.fna&_nc_gid=FhQPn4k1fZxTis7ARCFxdQ&_nc_ss=7b2a8&oh=00_AQB7tyA7iXC_HBMe5Z86zInuVt3MGlw8F7UqAw4arBzW6g&oe=6A6CC41C",
+            "https://scontent.flhe3-2.fna.fbcdn.net/v/t39.30808-6/708634762_961365919859104_1698851879387895275_n.jpg?stp=dst-jpg_tt6&cstp=mx668x671&ctp=s206x206&_nc_cat=106&ccb=1-7&_nc_sid=50ad20&_nc_ohc=9w8f3VbDqUQQ7kNvwF3tz3m&_nc_oc=AdpC22RM29HGwZB5dDo3TQJ8XFU_SFMVNNtLsOt2IBKywiMTnlhG56Lufw1-VzENtKA&_nc_zt=23&_nc_ht=scontent.flhe3-2.fna&_nc_gid=FhQPn4k1fZxTis7ARCFxdQ&_nc_ss=7b2a8&oh=00_AQDey4fR4D_OqwzVM5IZgCrhHrxZcjybQuTyaNBQmlmDvw&oe=6A6CDE88",
+            "https://scontent.flhe7-2.fna.fbcdn.net/v/t39.30808-6/709579688_961326536529709_8441355770443185673_n.jpg?stp=c76.0.788.788a_dst-jpg_tt6&cstp=mx788x788&ctp=s206x206&_nc_cat=103&ccb=1-7&_nc_sid=50ad20&_nc_ohc=nHazHvh2UUcQ7kNvwGVjSu5&_nc_oc=AdqgYYb673Vn7oZqHjMRmZx_nFX5wv90I1P-0Bk450D3nYzg9zCEPYQ70GbISUdwGt8&_nc_zt=23&_nc_ht=scontent.flhe7-2.fna&_nc_gid=FhQPn4k1fZxTis7ARCFxdQ&_nc_ss=7b2a8&oh=00_AQAXcn-7Uxn0EfSbdpAboI0AQvxg76y-YkIQRJgS11-Bpw&oe=6A6CDDB4",
+            "https://scontent.flhe7-1.fna.fbcdn.net/v/t39.30808-6/693348452_945943954734634_22498643901541637_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1600&ctp=s206x206&_nc_cat=101&ccb=1-7&_nc_sid=50ad20&_nc_ohc=1_EFsnVQpkkQ7kNvwGTyXXB&_nc_oc=AdoCBsGmUKdwadgUJQwOWx3rI6PG4Qun1mGlaExphuf-iPiFHwaAO0lPKQXBZ8iKs6s&_nc_zt=23&_nc_ht=scontent.flhe7-1.fna&_nc_gid=FhQPn4k1fZxTis7ARCFxdQ&_nc_ss=7b2a8&oh=00_AQBHQJDe7fMBckg7Sb9pUuUPdKxVL-2vDeKi7BnY5Uzn7w&oe=6A6CE3A3",
+            "https://scontent.flhe7-2.fna.fbcdn.net/v/t39.30808-6/686038883_940541978608165_7687703440421752116_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1080&ctp=s206x206&_nc_cat=103&ccb=1-7&_nc_sid=50ad20&_nc_ohc=3FEQVKxXUr0Q7kNvwG6ilb_&_nc_oc=AdpjdXoU2DO404l-1qG4fuMITtAygSlAPl6w4Sil6emTGnncr52x0E3pYRj8vgSq5Dw&_nc_zt=23&_nc_ht=scontent.flhe7-2.fna&_nc_gid=FhQPn4k1fZxTis7ARCFxdQ&_nc_ss=7b2a8&oh=00_AQANKDLMeCJj6wtvqOecmiEZYjJqjTS--49l-587la1GCA&oe=6A6CE185",
+            "https://scontent.flhe7-1.fna.fbcdn.net/v/t39.30808-6/682896392_937019402293756_2620050203471490851_n.jpg?stp=dst-jpg_tt6&cstp=mx926x923&ctp=s206x206&_nc_cat=104&ccb=1-7&_nc_sid=50ad20&_nc_ohc=EYb3BI91u40Q7kNvwGqSXbs&_nc_oc=Adr4pdVq_yAYmQYhk3c6ZMK7iPtEBBGWN8aSi-usdT-dxKNjPFxmZkQW3a9MOpdWRug&_nc_zt=23&_nc_ht=scontent.flhe7-1.fna&_nc_gid=FhQPn4k1fZxTis7ARCFxdQ&_nc_ss=7b2a8&oh=00_AQBBqMwWX-bc_xzeb55K9XPP8Dy1q0dxRzp8wlcW6WZFBg&oe=6A6CEBE0",
+            "https://scontent.flhe3-1.fna.fbcdn.net/v/t39.30808-6/672677269_926568516672178_6873120222269814433_n.jpg?stp=c20.0.858.858a_dst-jpg_tt6&cstp=mx858x858&ctp=s206x206&_nc_cat=111&ccb=1-7&_nc_sid=50ad20&_nc_ohc=yDcffcESeeMQ7kNvwFUiMSu&_nc_oc=Adojkr6uDKhC9Ed1Xmfu43gCu5bDd0L_B6gNnr1WflaooCAK_msI8gnBmOjFpfGk-9g&_nc_zt=23&_nc_ht=scontent.flhe3-1.fna&_nc_gid=FhQPn4k1fZxTis7ARCFxdQ&_nc_ss=7b2a8&oh=00_AQBOl9AbciB2rCmnTS23VBA8sPQ8vl7PQtVqUTPYsknzTg&oe=6A6CC858",
+            "https://scontent.flhe3-2.fna.fbcdn.net/v/t39.30808-6/672684784_925897456739284_7819148165294483886_n.jpg?stp=dst-jpg_tt6&cstp=mx1024x1024&ctp=s206x206&_nc_cat=110&ccb=1-7&_nc_sid=50ad20&_nc_ohc=PK1biDwo-DIQ7kNvwGdP6Sf&_nc_oc=AdrEGAg3D8i8mLHmiRXwEp7kqReXJTXP_tfRVEuSU6Pwxgyeb3VZ9pXfjLczDsFLB2M&_nc_zt=23&_nc_ht=scontent.flhe3-2.fna&_nc_gid=ZOp7j_nPkArNX3lEEJrg1A&_nc_ss=7b2a8&oh=00_AQDxrv4RaM8d3eX-5CQ8utLwdUVJP2H9ujvTv5OHJEl2sA&oe=6A6CEF2D",
+            "https://scontent.flhe7-2.fna.fbcdn.net/v/t39.30808-6/672670474_925032006825829_7597225663973165844_n.jpg?stp=dst-jpg_tt6&cstp=mx888x887&ctp=s206x206&_nc_cat=109&ccb=1-7&_nc_sid=50ad20&_nc_ohc=9q-bHDka1kAQ7kNvwEFwKpI&_nc_oc=AdqgWZLCQ5MsqVXeY_kddqjf7ARphAtdACUmlBg5412AchPwacBnH8xKE_oxUJNfSWk&_nc_zt=23&_nc_ht=scontent.flhe7-2.fna&_nc_gid=ZOp7j_nPkArNX3lEEJrg1A&_nc_ss=7b2a8&oh=00_AQALJ2gDpFSGrP1XF_6G7zLRFmdYjDApXOu25kq9wDnAwQ&oe=6A6CD67E",
+            "https://scontent.flhe3-1.fna.fbcdn.net/v/t39.30808-6/669309330_922962900366073_7020927910314561855_n.jpg?stp=c0.39.867.867a_dst-jpg_tt6&cstp=mx867x867&ctp=s206x206&_nc_cat=107&ccb=1-7&_nc_sid=50ad20&_nc_ohc=uFHUfLKQnSsQ7kNvwGw5wGf&_nc_oc=Adq_88gj1XPmX0KhkbL5d0c0gFfGog1YGQgWLRNsxDqYPZ8a3lwi5UU0Q2xz_V1NiLM&_nc_zt=23&_nc_ht=scontent.flhe3-1.fna&_nc_gid=ZOp7j_nPkArNX3lEEJrg1A&_nc_ss=7b2a8&oh=00_AQBF7c8zs3GkYETLp2bKpbobYXm8ziAE_bWtWgHB9ACdFw&oe=6A6CDCA3",
+            "https://scontent.flhe3-2.fna.fbcdn.net/v/t39.30808-6/660176457_916011387727891_1885121233773183606_n.jpg?stp=dst-jpg_tt6&cstp=mx829x831&ctp=s206x206&_nc_cat=106&ccb=1-7&_nc_sid=50ad20&_nc_ohc=UmkdnOOTiC4Q7kNvwFNc-Ao&_nc_oc=Adru3fwpio-rQ9_JQ3gA5g2kmFOOYO5qnf7BxOc3KLPblguWCmbN5NDpK3-BKT1nAPs&_nc_zt=23&_nc_ht=scontent.flhe3-2.fna&_nc_gid=ZOp7j_nPkArNX3lEEJrg1A&_nc_ss=7b2a8&oh=00_AQBfInORRo9QrzYkcxauzWRDWBSD0EKW4JgUciHHOEkqIA&oe=6A6CF3EB",
+            "https://scontent.flhe3-1.fna.fbcdn.net/v/t39.30808-6/657970729_910366501625713_3389191538673485767_n.jpg?stp=dst-jpg_tt6&cstp=mx1024x1024&ctp=s206x206&_nc_cat=100&ccb=1-7&_nc_sid=50ad20&_nc_ohc=mvQfkwoPR4EQ7kNvwFcvuQ-&_nc_oc=AdpB0GmADyP0E8o2fOiR_ysIf6XZE_jX0NJrF_X-fJZOpboVDLbyy8UwkrXkkahUb94&_nc_zt=23&_nc_ht=scontent.flhe3-1.fna&_nc_gid=ZOp7j_nPkArNX3lEEJrg1A&_nc_ss=7b2a8&oh=00_AQCFOPSgx7YKUysWFC1BAseZalM1TMyCNTLFdQEgr2KbsQ&oe=6A6CC257",
+            "https://scontent.flhe7-2.fna.fbcdn.net/v/t39.30808-6/649029713_897413466254350_5478861778625591037_n.jpg?stp=dst-jpg_tt6&cstp=mx1024x1024&ctp=s206x206&_nc_cat=109&ccb=1-7&_nc_sid=50ad20&_nc_ohc=mzth2aCK_4QQ7kNvwFbgHXZ&_nc_oc=AdrfngqF4PHGCkVNl9T1pwavAd1CTkuoRGxjya3xMqB864d8q4jxGu3TxHaMru4pEeM&_nc_zt=23&_nc_ht=scontent.flhe7-2.fna&_nc_gid=XO-E1xLtb2A1274SgRJIAA&_nc_ss=7b2a8&oh=00_AQBl0HBkwhFnMZjiKI1tHpVWBnE65bM5KK_0QUhR6Odznw&oe=6A6CD92E",
+            "https://scontent.flhe3-1.fna.fbcdn.net/v/t39.30808-6/650733192_900941329234897_3784432233733950310_n.jpg?stp=dst-jpg_tt6&cstp=mx1024x1024&ctp=s206x206&_nc_cat=108&ccb=1-7&_nc_sid=50ad20&_nc_ohc=ltog8QaTUgkQ7kNvwHZR2Yp&_nc_oc=Adp7cY2GracRB1PfbtKtkLT-6OyWhRcWHJpzmx5jysub3WT6JG1oM5gL-_QKwJj48MI&_nc_zt=23&_nc_ht=scontent.flhe3-1.fna&_nc_gid=XO-E1xLtb2A1274SgRJIAA&_nc_ss=7b2a8&oh=00_AQAXo_B7BSBjoLVqRpDMDjTHVqZZkxu10442KPxEkaBC9Q&oe=6A6CDD5C"
+        ];
+
+        function initCarousels() {
+            setupCarousel('carousel-home', slideshowImages);
+            setupCarousel('carousel-about', slideshowImages);
+        }
+
+        function setupCarousel(containerId, images) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            // Inject slides
+            images.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `ZAIC Slide ${index + 1}`;
+                img.classList.add('carousel-slide');
+                if (index === 0) img.classList.add('active');
+                container.appendChild(img);
+            });
+
+            // Auto-play logic
+            let currentSlide = 0;
+            const slides = container.querySelectorAll('.carousel-slide');
+            
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 3000); // Change image every 3 seconds
+        }
+    </script>
+</body>
+</html>
